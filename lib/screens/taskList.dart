@@ -68,7 +68,7 @@ class _TaskListState extends State<TaskList> {
                   ),
                 ),
                 onPressed: () {
-                  // Add onPressed logic here
+                  Navigator.pushNamed(context, AddTaskScreen);
                 },
                 child: Icon(Icons.add,
                     size: 20), // Adjust the size of the icon as needed

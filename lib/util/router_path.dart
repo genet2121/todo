@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo/screens/addTask.dart';
 import 'package:todo/screens/home.dart';
 import 'package:todo/screens/taskList.dart';
 import 'package:todo/screens/todoList.dart';
@@ -16,6 +17,10 @@ class Routerr {
       case TaskListScreen:
         return MaterialPageRoute(
           builder: (BuildContext context) => TaskList(),
+        );
+      case AddTaskScreen:
+        return MaterialPageRoute(
+          builder: (BuildContext context) => AddTask(),
         );
 
       default:
