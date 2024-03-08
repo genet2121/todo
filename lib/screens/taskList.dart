@@ -39,14 +39,14 @@ class _TaskListState extends State<TaskList> {
               // crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'hey',
+                  'General Task',
                   style: TextStyle(
                     color: Color.fromARGB(255, 3, 53, 133),
-                    fontSize: 28,
+                    fontSize: 22,
                   ),
                 ),
                 SizedBox(height: 10),
-                Text('hello'),
+                Text('10 tasks here'),
               ],
             ),
           ),
@@ -70,7 +70,7 @@ class _TaskListState extends State<TaskList> {
                 onPressed: () {
                   Navigator.pushNamed(context, AddTaskScreen);
                 },
-                child: Icon(Icons.add,
+                child: const Icon(Icons.add,
                     size: 20), // Adjust the size of the icon as needed
               ),
             ),
@@ -78,62 +78,83 @@ class _TaskListState extends State<TaskList> {
           Positioned(
             top: 200,
             left: 20,
-            child: Container(
+            child: SizedBox(
               width: screenWidth * 0.88, // Set the width of the container
               child: Card(
-                child: Row(
-                  // crossAxisAlignment: CrossAxisAlignment.start,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(
-                      height: 10,
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Container(
-                      width: 36, // Set the width of the rectangular shape
-                      height: 36, // Set the height of the rectangular shape
-                      color: Color.fromARGB(
-                          255, 15, 29, 226), // Set the background color
-                      alignment: Alignment.center,
-                      child: Text(
-                        'T',
-                        style: TextStyle(
-                          color: Colors.white, // Set the text color
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                        width:
-                            8), // Add some spacing between the rectangular shape and the text
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    Row(
+                      // crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            'Title',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Text(
-                            'Start Date - End Date',
-                            style: TextStyle(
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ),
+                        // SizedBox(
+                        //   height: 10,
+                        // ),
                         SizedBox(
-                          height: 20,
+                          width: 10,
+                        ),
+                        Container(
+                          width: 36, // Set the width of the rectangular shape
+                          height: 36, // Set the height of the rectangular shape
+                          color: Color.fromARGB(
+                              255, 15, 29, 226), // Set the background color
+                          alignment: Alignment.center,
+                          child: const Text(
+                            'T',
+                            style: TextStyle(
+                              color: Colors.white, // Set the text color
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                            width:
+                                8), // Add some spacing between the rectangular shape and the text
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Text(
+                                'Display Title here',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 8.0),
+                              child: Text(
+                                'Start Date - End Date',
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                          ],
                         ),
                       ],
                     ),
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: 63,
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, TaskListDetailScreen);
+                          },
+                          child: Text('ViewDetail'),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 20,
+                    )
                   ],
                 ),
               ),
