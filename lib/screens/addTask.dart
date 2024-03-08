@@ -1,6 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:todo/util/router.dart';
 import 'package:todo/util/widget.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 
 class AddTask extends StatefulWidget {
   const AddTask({super.key});
@@ -22,6 +25,9 @@ class _AddTaskState extends State<AddTask> {
   late TextEditingController _startTimeController;
   late TextEditingController _endTimeController;
 
+  final List<String> taskStateItems = ['Todo', 'Doing', 'Done'];
+
+  String? selectedValue;
   @override
   void initState() {
     super.initState();
@@ -73,7 +79,7 @@ class _AddTaskState extends State<AddTask> {
           Positioned(
             left: 0,
             right: 0,
-            top: 200,
+            top: 160,
             child: Padding(
               padding: EdgeInsets.all(16.0),
               child: Form(
@@ -88,25 +94,103 @@ class _AddTaskState extends State<AddTask> {
                     SizedBox(
                       height: 10,
                     ),
+                    // TextFormField(
+                    //   decoration: InputDecoration(
+                    //       //labelText: 'Task Name',
+                    //       hintText: 'task name',
+                    //       border: OutlineInputBorder(
+                    //           borderRadius: BorderRadius.circular(20))),
+                    //   validator: (value) {
+                    //     if (value == null || value.isEmpty) {
+                    //       return 'Please enter task name';
+                    //     }
+                    //     return null;
+                    //   },
+                    //   onSaved: (value) {
+                    //     _taskName = value!;
+                    //   },
+                    // ),
                     TextFormField(
                       decoration: InputDecoration(
-                          //labelText: 'Task Name',
-                          hintText: 'task name',
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20))),
+                        contentPadding: const EdgeInsets.all(16),
+                        hintText: 'Enter Your Task Name',
+                        hintStyle: const TextStyle(fontSize: 14),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+
+                    Text(
+                      'Task Status',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    DropdownButtonFormField2<String>(
+                      isExpanded: true,
+                      decoration: InputDecoration(
+                        contentPadding:
+                            const EdgeInsets.symmetric(vertical: 16),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        // Add more decoration..
+                      ),
+                      hint: const Text(
+                        'Select Your Task status',
+                        style: TextStyle(fontSize: 14),
+                      ),
+                      items: taskStateItems
+                          .map((item) => DropdownMenuItem<String>(
+                                value: item,
+                                child: Text(
+                                  item,
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ))
+                          .toList(),
                       validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter task name';
+                        if (value == null) {
+                          return 'Please select status.';
                         }
                         return null;
                       },
-                      onSaved: (value) {
-                        _taskName = value!;
+                      onChanged: (value) {
+                        //Do something when selected item is changed.
                       },
+                      onSaved: (value) {
+                        selectedValue = value.toString();
+                      },
+                      buttonStyleData: const ButtonStyleData(
+                        padding: EdgeInsets.only(right: 8),
+                      ),
+                      iconStyleData: const IconStyleData(
+                        icon: Icon(
+                          Icons.arrow_drop_down,
+                          color: Colors.black45,
+                        ),
+                        iconSize: 24,
+                      ),
+                      dropdownStyleData: DropdownStyleData(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                      ),
+                      menuItemStyleData: const MenuItemStyleData(
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                      ),
                     ),
                     SizedBox(
                       height: 25,
                     ),
+
                     Row(
                       children: [
                         Column(
@@ -118,14 +202,48 @@ class _AddTaskState extends State<AddTask> {
                             SizedBox(
                               height: 10,
                             ),
-                            SizedBox(
-                              width: 150,
-                              height: 50, // Set the width here
-                              child: ElevatedButton(
-                                onPressed: () => _selectStartTime(context),
-                                child: Text('${_startTime.format(context)}'),
-                              ),
-                            ),
+                            Container(
+                                width: 150,
+                                height: 50,
+                                // Set the width here
+                                // child: ElevatedButton(
+                                //   onPressed: () => _selectStartTime(context),
+                                //   child: Text('${_startTime.format(context)}'),
+                                // ),
+                                decoration: BoxDecoration(
+                                    border: Border(
+                                      top: BorderSide(
+                                          width: 1.0, color: Colors.grey),
+                                      left: BorderSide(
+                                          width: 1.0, color: Colors.grey),
+                                      right: BorderSide(
+                                          width: 1.0, color: Colors.grey),
+                                      bottom: BorderSide(
+                                          width: 1.0, color: Colors.grey),
+                                    ),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(15))),
+                                child: Row(
+                                  children: [
+                                    SizedBox(
+                                      width: 100,
+                                    ),
+                                    IconButton(
+                                        icon: Icon(
+                                          Icons.calendar_today,
+                                          color: Colors.grey,
+                                        ),
+                                        tooltip: 'Tap to open date picker',
+                                        onPressed: () {
+                                          showDatePicker(
+                                            context: context,
+                                            initialDate: DateTime.now(),
+                                            firstDate: DateTime(2015, 8),
+                                            lastDate: DateTime(2101),
+                                          );
+                                        }),
+                                  ],
+                                )),
                           ],
                         ),
                         SizedBox(width: 50),
@@ -138,13 +256,48 @@ class _AddTaskState extends State<AddTask> {
                             SizedBox(
                               height: 10,
                             ),
-                            SizedBox(
+                            Container(
                               width: 150,
-                              height: 50, // Set the width here
-                              child: ElevatedButton(
-                                onPressed: () => _selectEndTime(context),
-                                child: Text('${_endTime.format(context)}'),
+                              height: 50,
+                              decoration: BoxDecoration(
+                                  border: Border(
+                                    top: BorderSide(
+                                        width: 1.0, color: Colors.grey),
+                                    left: BorderSide(
+                                        width: 1.0, color: Colors.grey),
+                                    right: BorderSide(
+                                        width: 1.0, color: Colors.grey),
+                                    bottom: BorderSide(
+                                        width: 1.0, color: Colors.grey),
+                                  ),
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(
+                                          15))), // Set the width here
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                    width: 100,
+                                  ),
+                                  IconButton(
+                                      icon: Icon(
+                                        Icons.calendar_today,
+                                        color: Colors.grey,
+                                      ),
+                                      tooltip: 'Tap to open date picker',
+                                      onPressed: () {
+                                        showDatePicker(
+                                          context: context,
+                                          initialDate: DateTime.now(),
+                                          firstDate: DateTime(2015, 8),
+                                          lastDate: DateTime(2101),
+                                        );
+                                      }),
+                                ],
                               ),
+                              // ElevatedButton(
+                              //   onPressed: () => _selectEndTime(context),
+                              //   child: Text('${_endTime.format(context)}'),
+                              // ),
                             ),
                           ],
                         ),
@@ -162,27 +315,38 @@ class _AddTaskState extends State<AddTask> {
                     ),
                     TextFormField(
                       decoration: InputDecoration(
-                          hintText: 'Description',
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20))),
+                        contentPadding: const EdgeInsets.all(16),
+                        hintText: 'Enter Your Description',
+                        hintStyle: const TextStyle(fontSize: 14),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                      ),
                       maxLines: 2,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter description';
-                        }
-                        return null;
-                      },
-                      onSaved: (value) {
-                        _description = value!;
-                      },
                     ),
-                    SizedBox(height: 20),
+                    // TextFormField(
+                    //   decoration: InputDecoration(
+                    //       hintText: 'Description',
+                    //       border: OutlineInputBorder(
+                    //           borderRadius: BorderRadius.circular(20))),
+                    //   maxLines: 2,
+                    //   validator: (value) {
+                    //     if (value == null || value.isEmpty) {
+                    //       return 'Please enter description';
+                    //     }
+                    //     return null;
+                    //   },
+                    //   onSaved: (value) {
+                    //     _description = value!;
+                    //   },
+                    // ),
+                    SizedBox(height: 40),
                     Container(
                       width: 350,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(
                             10), // Adjust border radius as needed
-                        color: Colors.blue, // Set background color
+                        color: Color(0xFF3787EB), // Set background color
                         border:
                             Border.all(color: Colors.black), // Set border color
                       ),
