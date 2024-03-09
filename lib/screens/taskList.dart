@@ -29,7 +29,14 @@ class _TaskListState extends State<TaskList> {
                       style: TextStyle(
                           color: Color.fromARGB(255, 3, 53, 133), fontSize: 22),
                     ),
+                    SizedBox(
+                      width: 90,
+                    ),
+                    Icon(Icons.add),
                   ],
+                ),
+                SizedBox(
+                  height: 10,
                 ),
                 Text('hello')
               ],
